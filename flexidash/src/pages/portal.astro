@@ -1,0 +1,37 @@
+---
+/**
+ * FlexiDash Member Portal Site Route (/portal)
+ *
+ * Server-rendered Astro page that mounts the client-side MemberPortal React application.
+ * Enables site members to view, arrange, and interact with authorized dashboard widgets.
+ */
+import { MemberPortal } from '../portal/member-portal.tsx';
+
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlexiDash Member Portal</title>
+    <meta name="description" content="Personalized Member Portal and Adaptive Widget Dashboard" />
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f7fafc;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+  </head>
+  <body>
+    <MemberPortal client:load />
+  </body>
+</html>
+

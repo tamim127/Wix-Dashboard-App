@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+flexidash/node_modules/
+
+# Build and distribution artifacts
+dist/
+flexidash/dist/
+out/
+flexidash/out/
+
+# Wix integration artifacts
+.wix/
+flexidash/.wix/
+
+# Astro generated types and cache
+.astro/
+flexidash/.astro/
+
+# Local storage and dynamic runtime databases
+.storage/
+flexidash/.storage/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+flexidash/.env
+flexidash/.env.*
+!flexidash/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

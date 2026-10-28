@@ -1,0 +1,34 @@
+---
+/**
+ * FlexiDash Dashboard Management Extension Route (/dashboard)
+ *
+ * Renders the full Dashboard Page extension for local development and browser testing.
+ */
+import { DashboardPage } from '../extensions/dashboard/pages/my-page/my-page.tsx';
+
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlexiDash — Dashboard Management Extension</title>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f4f8;
+        font-family: "Madefor", system-ui, -apple-system, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <DashboardPage client:load />
+  </body>
+</html>
+

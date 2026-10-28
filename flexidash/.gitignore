@@ -1,0 +1,29 @@
+# wix integration
+.wix/
+
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+
+
+# environment variables
+.env
+.env.local
+.env.production
+
+# local storage runtime files
+.storage/
+
+# misc
+.DS_Store
+.idea/
+out

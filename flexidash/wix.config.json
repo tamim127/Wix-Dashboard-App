@@ -1,0 +1,9 @@
+{
+  "appId": "fed82166-29ac-4cba-842a-fbedd2e1b0b1",
+  "projectId": "flexidash",
+  "projectType": "App",
+  "permissions": [
+    "WIX_MEMBERS.READ",
+    "WIX_CONTACTS.READ"
+  ]
+}
