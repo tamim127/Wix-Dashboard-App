@@ -112,3 +112,4 @@ npm run build       # Executes 'wix build'
 ## 📄 License
 
 Proprietary / All rights reserved.
+
