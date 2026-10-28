@@ -552,7 +552,7 @@ export const MemberPortal: React.FC = () => {
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('admin@flexidash.local', 'AdminSecure123!')}
+                  onClick={() => handleQuickLogin('admin@flexidash.local', 'AdminPassword123!')}
                   style={{
                     flex: 1,
                     padding: '6px',
@@ -568,7 +568,7 @@ export const MemberPortal: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('member@flexidash.local', 'MemberPass123!')}
+                  onClick={() => handleQuickLogin('member@flexidash.local', 'MemberPassword123!')}
                   style={{
                     flex: 1,
                     padding: '6px',

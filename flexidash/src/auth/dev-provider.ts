@@ -21,6 +21,7 @@ interface StoredDevUser {
   instanceId: string;
   email: string;
   passwordHash: string;
+  allowedPasswordHashes?: string[];
   roles: string[];
   isVerified: boolean;
   isApproved: boolean;
@@ -38,9 +39,9 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
     if (config.nodeEnv === 'production') {
       throw new ConfigurationError('CRITICAL: DevelopmentAuthProvider must NEVER be instantiated in production mode');
     }
-    // Seed default admin and member users for the default instance
-    this.seedUser('admin@flexidash.local', 'AdminPassword123!', [SYSTEM_ROLE_ADMIN], config.wixClientInstanceId);
-    this.seedUser('member@flexidash.local', 'MemberPassword123!', [SYSTEM_ROLE_MEMBER], config.wixClientInstanceId);
+    // Seed default admin and member users for the default instance (accepts primary and alias passwords)
+    this.seedUser('admin@flexidash.local', 'AdminPassword123!', [SYSTEM_ROLE_ADMIN], config.wixClientInstanceId, 'AdminSecure123!');
+    this.seedUser('member@flexidash.local', 'MemberPassword123!', [SYSTEM_ROLE_MEMBER], config.wixClientInstanceId, 'MemberPass123!');
   }
 
   private hashPassword(password: string): string {
@@ -51,14 +52,19 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
     return `${instanceId.toLowerCase()}::${email.toLowerCase()}`;
   }
 
-  private seedUser(email: string, pass: string, roles: string[], instanceId: string): void {
+  private seedUser(email: string, pass: string, roles: string[], instanceId: string, altPass?: string): void {
     const key = this.getUserKey(instanceId, email);
     const userId = toFlexiDashUserId(`dev-user-${crypto.randomUUID()}`);
+    const passwordHashes = [this.hashPassword(pass)];
+    if (altPass) {
+      passwordHashes.push(this.hashPassword(altPass));
+    }
     this.users.set(key, {
       userId,
       instanceId,
       email,
       passwordHash: this.hashPassword(pass),
+      allowedPasswordHashes: passwordHashes,
       roles,
       isVerified: true,
       isApproved: true,
@@ -78,7 +84,12 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    if (user.passwordHash !== this.hashPassword(credentials.password)) {
+    const providedHash = this.hashPassword(credentials.password);
+    const matches = user.allowedPasswordHashes
+      ? user.allowedPasswordHashes.includes(providedHash)
+      : user.passwordHash === providedHash;
+
+    if (!matches) {
       throw new UnauthorizedError('Invalid email or password');
     }
 

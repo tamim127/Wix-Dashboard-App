@@ -35,10 +35,17 @@ if (originalFetch) {
   };
 }
 
+// Filter out @wix/astro/auth integration because FlexiDash manages its own
+// internal authentication, sessions, and RBAC policy engine. The default @wix/astro/auth
+// middleware intercepts all Bearer tokens and fails when they are not Wix OAuth tokens.
+const wixIntegrations = wix({ htmlEmbeds: false, auth: false }).filter(
+  (integration) => integration.name !== '@wix/astro/auth'
+);
+
 export default defineConfig({
   output: "server",
   adapter: wixHostingAdapter(),
-  integrations: [wix({ htmlEmbeds: false, auth: false }), react()],
+  integrations: [...wixIntegrations, react()],
   image: { domains: ["static.wixstatic.com"] },
   security: { checkOrigin: false },
   devToolbar: { enabled: false }
