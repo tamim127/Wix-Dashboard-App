@@ -69,10 +69,42 @@ export const DEFAULT_PAGE_RULES: PageAccessRule[] = [
     description: 'Tenant portal customization and integration preferences',
     requiredPermission: 'pages:view:settings',
   },
+  {
+    path: '/portal/team',
+    name: 'Team Management',
+    section: 'community',
+    description: 'Team Leader member supervision, task queue, and approvals',
+    requiredPermission: 'pages:view:team',
+  },
+  {
+    path: '/portal/stores',
+    name: 'Wix Stores',
+    section: 'reporting',
+    description: 'Wix Stores ecommerce orders, fulfillment, and revenue metrics',
+    requiredPermission: 'pages:view:stores',
+  },
+  {
+    path: '/portal/bookings',
+    name: 'Wix Bookings',
+    section: 'reporting',
+    description: 'Wix Bookings upcoming appointments and service schedule',
+    requiredPermission: 'pages:view:bookings',
+  },
+  {
+    path: '/portal/cms',
+    name: 'Wix CMS Resources',
+    section: 'dashboard',
+    description: 'Dynamic member articles, downloadable guides, and CMS content',
+    requiredPermission: 'pages:view:cms',
+  },
 ];
 
 export const DEFAULT_PORTAL_NAV_ITEMS: NavItem[] = [
   { id: 'nav_overview', path: '/portal', label: 'Overview', section: 'dashboard', icon: 'dashboard' },
+  { id: 'nav_team', path: '/portal/team', label: 'My Team', section: 'community', icon: 'users' },
+  { id: 'nav_stores', path: '/portal/stores', label: 'Store Orders', section: 'reporting', icon: 'cart' },
+  { id: 'nav_bookings', path: '/portal/bookings', label: 'Bookings', section: 'reporting', icon: 'calendar' },
+  { id: 'nav_cms', path: '/portal/cms', label: 'CMS Content', section: 'dashboard', icon: 'file' },
   { id: 'nav_analytics', path: '/portal/analytics', label: 'Analytics', section: 'reporting', icon: 'chart' },
   { id: 'nav_members', path: '/portal/members', label: 'Members', section: 'community', icon: 'users' },
   { id: 'nav_roles', path: '/portal/roles', label: 'Roles', section: 'admin', icon: 'shield' },

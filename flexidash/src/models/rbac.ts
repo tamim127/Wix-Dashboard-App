@@ -25,7 +25,11 @@ export type PermissionKey =
   | 'pages:view:members'
   | 'pages:view:roles'
   | 'pages:view:settings'
-  | 'pages:view:audit';
+  | 'pages:view:audit'
+  | 'pages:view:stores'
+  | 'pages:view:bookings'
+  | 'pages:view:cms'
+  | 'pages:view:team';
 
 export interface PermissionDefinition {
   id: PermissionKey;
@@ -174,6 +178,30 @@ export const PERMISSION_CATALOG: Record<PermissionKey, PermissionDefinition> = {
     description: 'Allows accessing security audit trail section',
     category: 'pages',
   },
+  'pages:view:stores': {
+    id: 'pages:view:stores',
+    name: 'View Wix Stores Section',
+    description: 'Allows accessing store orders, products, and sales metrics',
+    category: 'pages',
+  },
+  'pages:view:bookings': {
+    id: 'pages:view:bookings',
+    name: 'View Wix Bookings Section',
+    description: 'Allows accessing upcoming appointments, schedules, and client bookings',
+    category: 'pages',
+  },
+  'pages:view:cms': {
+    id: 'pages:view:cms',
+    name: 'View Wix CMS Section',
+    description: 'Allows accessing dynamic member content, articles, and collections',
+    category: 'pages',
+  },
+  'pages:view:team': {
+    id: 'pages:view:team',
+    name: 'View Team Leader Section',
+    description: 'Allows accessing team rosters, milestones, and task queues',
+    category: 'pages',
+  },
 };
 
 export const ALL_PERMISSION_KEYS = Object.keys(PERMISSION_CATALOG) as PermissionKey[];
@@ -208,6 +236,7 @@ export interface MemberRoleAssignment {
  */
 export const SYSTEM_ROLE_OWNER = 'role_site_owner';
 export const SYSTEM_ROLE_ADMIN = 'role_admin';
+export const SYSTEM_ROLE_TEAM_LEADER = 'role_team_leader';
 export const SYSTEM_ROLE_MEMBER = 'role_member';
 export const SYSTEM_ROLE_VISITOR = 'role_visitor';
 
@@ -227,6 +256,19 @@ export const DEFAULT_MEMBER_PERMISSIONS: PermissionKey[] = [
   'portal:access',
   'profile:edit',
   'pages:view:overview',
+];
+
+export const DEFAULT_TEAM_LEADER_PERMISSIONS: PermissionKey[] = [
+  'dashboard:view',
+  'portal:access',
+  'profile:edit',
+  'members:view',
+  'widgets:action',
+  'pages:view:overview',
+  'pages:view:analytics',
+  'pages:view:members',
+  'pages:view:team',
+  'pages:view:bookings',
 ];
 
 export const DEFAULT_ADMIN_PERMISSIONS: PermissionKey[] = [

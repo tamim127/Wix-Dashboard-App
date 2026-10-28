@@ -11,7 +11,7 @@ import crypto from 'node:crypto';
 import type { IAuthenticationProvider, LoginCredentials, RegisterPayload, AuthResult, AuthContext } from './types.ts';
 import type { AuthSession } from '../models/session.ts';
 import { toFlexiDashUserId, toWixContactId, toWixMemberId, type FlexiDashUserId } from '../models/identity.ts';
-import { DEFAULT_ADMIN_PERMISSIONS, DEFAULT_MEMBER_PERMISSIONS, SYSTEM_ROLE_ADMIN, SYSTEM_ROLE_MEMBER, SYSTEM_ROLE_OWNER } from '../models/rbac.ts';
+import { DEFAULT_ADMIN_PERMISSIONS, DEFAULT_MEMBER_PERMISSIONS, DEFAULT_TEAM_LEADER_PERMISSIONS, SYSTEM_ROLE_ADMIN, SYSTEM_ROLE_MEMBER, SYSTEM_ROLE_OWNER, SYSTEM_ROLE_TEAM_LEADER } from '../models/rbac.ts';
 import { UnauthorizedError, ValidationError } from '../errors/app-error.ts';
 import { getAppConfig, ConfigurationError } from '../config/env.ts';
 import { signJwt, verifyJwt } from './jwt-service.ts';
@@ -39,8 +39,9 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
     if (config.nodeEnv === 'production') {
       throw new ConfigurationError('CRITICAL: DevelopmentAuthProvider must NEVER be instantiated in production mode');
     }
-    // Seed default admin and member users for the default instance (accepts primary and alias passwords)
+    // Seed default admin, team leader, and member users for the default instance (accepts primary and alias passwords)
     this.seedUser('admin@flexidash.local', 'AdminPassword123!', [SYSTEM_ROLE_ADMIN], config.wixClientInstanceId, 'AdminSecure123!');
+    this.seedUser('leader@flexidash.local', 'LeaderPassword123!', [SYSTEM_ROLE_TEAM_LEADER], config.wixClientInstanceId, 'LeaderSecure123!');
     this.seedUser('member@flexidash.local', 'MemberPassword123!', [SYSTEM_ROLE_MEMBER], config.wixClientInstanceId, 'MemberPass123!');
   }
 
@@ -206,7 +207,9 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
         ? payload.permissions
         : roles.includes(SYSTEM_ROLE_ADMIN) || roles.includes(SYSTEM_ROLE_OWNER)
           ? DEFAULT_ADMIN_PERMISSIONS
-          : DEFAULT_MEMBER_PERMISSIONS;
+          : roles.includes(SYSTEM_ROLE_TEAM_LEADER)
+            ? DEFAULT_TEAM_LEADER_PERMISSIONS
+            : DEFAULT_MEMBER_PERMISSIONS;
 
       return {
         userId: toFlexiDashUserId(payload.sub),
@@ -224,9 +227,11 @@ export class DevelopmentAuthProvider implements IAuthenticationProvider {
   }
 
   private buildSession(user: StoredDevUser, context: AuthContext): AuthSession {
-    const permissions = user.roles.includes(SYSTEM_ROLE_ADMIN)
+    const permissions = user.roles.includes(SYSTEM_ROLE_ADMIN) || user.roles.includes(SYSTEM_ROLE_OWNER)
       ? DEFAULT_ADMIN_PERMISSIONS
-      : DEFAULT_MEMBER_PERMISSIONS;
+      : user.roles.includes(SYSTEM_ROLE_TEAM_LEADER)
+        ? DEFAULT_TEAM_LEADER_PERMISSIONS
+        : DEFAULT_MEMBER_PERMISSIONS;
 
     return {
       userId: user.userId,

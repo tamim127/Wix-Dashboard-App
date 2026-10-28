@@ -19,6 +19,11 @@ import { RolesTableWidget } from './widgets/roles-table.tsx';
 import { LayoutEditorWidget } from './widgets/layout-editor-widget.tsx';
 import { IntegrationsWidget } from './widgets/integrations.tsx';
 import { AuditLogWidget } from './widgets/audit-log.tsx';
+import { WixStoresWidget } from './widgets/wix-stores.tsx';
+import { WixBookingsWidget } from './widgets/wix-bookings.tsx';
+import { WixCrmWidget } from './widgets/wix-crm.tsx';
+import { WixCmsWidget } from './widgets/wix-cms.tsx';
+import { TeamManagementWidget } from './widgets/team-management.tsx';
 import { UnknownWidget } from './widgets/unknown-widget.tsx';
 
 interface ErrorBoundaryProps {
@@ -82,6 +87,11 @@ export const WIDGET_COMPONENT_MAP: Record<string, React.FC<WidgetComponentProps>
   'widget-layout-editor': LayoutEditorWidget,
   'widget-integrations': IntegrationsWidget,
   'widget-audit-log': AuditLogWidget,
+  'widget-wix-stores': WixStoresWidget,
+  'widget-wix-bookings': WixBookingsWidget,
+  'widget-wix-crm': WixCrmWidget,
+  'widget-wix-cms': WixCmsWidget,
+  'widget-team-management': TeamManagementWidget,
 };
 
 export function getWidgetComponent(widgetId: string): React.FC<WidgetComponentProps> {
